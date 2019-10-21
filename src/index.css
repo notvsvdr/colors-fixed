@@ -1,13 +1,27 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.guess-color {
+    display: flex;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+}
+
+#progress {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: grey;
+}
+
+#progress__bar {
+    width: 0%;
+    height: 30px;
+    background-color: greenyellow;
 }

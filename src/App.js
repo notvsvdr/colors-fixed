@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Game, Score, ProgressBar} from './components';
 import './App.css';
+import { connect } from 'react-redux';
+import { getColorsSaga } from './actions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+    onSquareClick = () => {
+        getColorsSaga();
+    }
+
+    componentDidMount = () => {
+        getColorsSaga();
+    }
+
+    render() {
+        return (
+            <div className="app">
+                <Game
+                    onSquareClick={this.onSquareClick}
+                    colors={this.props.colors}
+                />
+                <Score score={0} />
+                <ProgressBar progress={10} />
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+    colors: state.colors
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getColorsSaga: () => dispatch(getColorsSaga()),
+    // startTimer: () => dispatch(startTimer())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
