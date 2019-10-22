@@ -1,49 +1,46 @@
-// import { call, put, take, fork, cancel, select, cancelled, race } from 'redux-saga/effects';
-// import { eventChannel, END } from 'redux-saga';
-// import { setTimeLeft, startTimer } from '../../actions';
+import { eventChannel, END } from 'redux-saga';
+import { call, fork, put, take, cancelled, cancel } from 'redux-saga/effects';
+import { updateCounter, countOver, counterStarted, counterPaused } from '../../actions';
 
-// // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const countdown = (secs) => {
+    return eventChannel(emit => {
+        const counter = setInterval(() => {
+            secs -= 1;
+            emit(secs >= 0 ? secs : END);
+        }, 1000);
 
-// export const countdown = (secs) => {
-//     return eventChannel(listener => {
-//         const iv = setInterval(() => {
-//             secs -= 1;
-//             if (secs > 0) {
-//                 listener(secs);
-//             } else {
-//                 listener(END);
-//                 clearInterval(iv);
-//             }
-//         }, 1000);
-//         return () => {
-//             clearInterval(iv);
-//         }
-//     });
-// }
+        return () => clearInterval(counter);
+    });
+}
 
-// export function* getTimeLeft({ value }) {
-//     const chan = yield call (countdown, value);
+function* countdownTask(secs) {
+    const chan = yield call(countdown, secs);
 
-//     try {
-//         while (true) {
-//             let seconds = yield take(chan);
-//             yield put(setTimeLeft(seconds));
-//         }
-//     } finally {
-//         if (!(yield cancelled())) {
-//             yield put('STOP');
-//         }
-//         chan.close()
-//     }
-// }
+    try {
+        while (true) {
+            const sec = yield take(chan);
+            yield put(updateCounter(sec));
+        }
+    } finally {
+        if (yield cancelled()) {
+            chan.close();
+        } else {
+            yield put(countOver());
+        }
+    }
+}
 
-// export default function* watchGetTimeLeft() {
-//     try {
-//         while (true) {
-//             const action = yield take(startTimer());
-//             yield race([call(getTimeLeft, action), take('STOPPED_SAGA')])
-//         }
-//     } finally {
-//         console.log('watchGetTimeLeft terminated')
-//     }
-// }
+export default function* watchCountdown() {
+    while (true) {
+        const { secs } = yield take('START_COUNTER');
+    
+        const task = yield fork(countdownTask, 10);
+        yield put(counterStarted());
+    
+        const { type } = yield take(['PAUSE_COUNTER', 'COUNT_OVER']);
+        if (type === 'PAUSE_COUNTER') {
+            yield cancel(task);
+            yield put(counterPaused());
+        }
+    }
+}

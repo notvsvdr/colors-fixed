@@ -8,7 +8,7 @@ export const Game = (props) => {
     return (
             <>
                 <div className='guess-color'>
-                    {colors.map((color, idx) => {
+                    {colors && colors.map((color, idx) => {
                         return (
                             <Square key={color} color={color} text={textColors[idx]} onSquareClick={onSquareClick} />
                         );
