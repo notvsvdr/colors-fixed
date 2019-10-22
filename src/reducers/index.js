@@ -3,7 +3,8 @@ const initialState = {
     textColors: [],
     colorToGuess: '',
     timeLeft: 10,
-    paused: true
+    paused: true,
+    score: 0
 }
 
 export const reducer = (state = initialState, { type, colors, textColors, colorToGuess, timeLeft }) => {
@@ -34,7 +35,18 @@ export const reducer = (state = initialState, { type, colors, textColors, colorT
             return {
                 ...state,
                 paused: true,
-                timeLeft: initialState.timeLeft
+                timeLeft: initialState.timeLeft,
+            }
+        case 'COUNTER_STARTED':
+            return {
+                ...state,
+                paused: false,
+                score: 0
+            }
+        case 'INCREMENT_SCORE':
+            return {
+                ...state,
+                score: state.score + 1
             }
         default:
             return state;

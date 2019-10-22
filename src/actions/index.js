@@ -1,3 +1,4 @@
+// Colors
 export const setColors = (data) => ({
     type: 'SET_COLORS',
     colors: data.colors,
@@ -9,12 +10,15 @@ export const getColorsSaga = () => ({
     type: 'GET_COLORS_SAGA'
 });
 
+// Countdown
 export const startCounter = (secs) => ({
     type: 'START_COUNTER',
     timeLeft: secs
-})
+});
+
 export const counterStarted = () => ({
     type: 'COUNTER_STARTED',
+    paused: false
 });
 
 export const updateCounter = (secs) => ({
@@ -29,3 +33,8 @@ export const counterPaused = () => ({
 export const countOver = () => ({
     type: 'COUNT_OVER'
 });
+
+//Score
+export const incrementScore = () => ({
+    type: 'INCREMENT_SCORE'
+})

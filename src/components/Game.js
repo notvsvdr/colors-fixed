@@ -7,14 +7,14 @@ export const Game = (props) => {
 
     return (
             <>
-                <div className='guess-color'>
+                <div className='guess-color-container'>
                     {colors && colors.map((color, idx) => {
                         return (
                             <Square key={color} color={color} text={textColors[idx]} onSquareClick={onSquareClick} />
                         );
                     })}
                 </div>
-                <div className='guess'>
+                <div className='color-to-guess-container'>
                     <Square color={colorToGuess} />
                 </div>
             </>

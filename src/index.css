@@ -2,27 +2,60 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Source Code Pro', monospace;
 }
 
-.guess-color {
+html, body {
+    background-color: #cfcfcf;
+    font-weight: 700;
+}
+
+.heading {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.guess-color-container, .color-to-guess-container {
     display: flex;
+    justify-content: center;
 }
 
 .square {
     width: 100px;
     height: 100px;
+    margin: 20px 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 6px -6px #535353;
 }
 
-#progress {
+.square:hover:not(.unclickable) {
+    border: 2px solid #6b6b6b;
+    cursor: pointer;
+}
+
+.score {
+    width: 200px;
+    border: 2px solid #6b6b6b;
+}
+
+.progress {
+    border: 1px solid #6b6b6b;
+    box-shadow: #cfcfcf;
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: grey;
 }
 
-#progress__bar {
+.progress__bar {
     width: 0%;
     height: 30px;
     background-color: greenyellow;
     transition: all 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
